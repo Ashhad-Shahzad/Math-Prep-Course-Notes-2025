@@ -12,6 +12,7 @@
 \usepackage{xcolor}
 \usepackage{enumitem}
 \usepackage{pgfplots}
+\usepackage{booktabs}
 \usepgfplotslibrary{fillbetween}
 
 \usepackage[backend=biber,style=ieee,citestyle=numeric-comp,sorting=none]{biblatex}
@@ -46,7 +47,7 @@ Table for the left hand side
 \[
 \begin{array}{c|c|c|c|c}
 P & Q & R & Q \lor R & P \land (Q \lor R) \\
-\hline
+\midrule
 T & T & T & T & T \\
 T & T & F & T & T \\
 T & F & T & T & T \\
@@ -63,7 +64,7 @@ Table for the Right hand side
 \[
 \begin{array}{c|c|c|c|c|c}
 P & Q & R & P \land Q & P \land R  & (P \land Q) \lor (P \land R) \\
-\hline
+\midrule
 T & T & T & T & T & T \\
 T & T & F & T & F & T \\
 T & F & T & F & T & T \\
@@ -79,7 +80,7 @@ Final table
 \[
 \begin{array}{c|c|c}
 P \land (Q \lor R) &(P \land Q) \lor (P \land R) & P \land (Q \lor R) \iff (P \land Q) \lor (P \land R)\\
-\hline
+\midrule
 T & T & T \\
 T & T & T \\
 T & T & T \\
@@ -215,10 +216,10 @@ Evaluate
 \begin{solution}
 Expand the term inside the cube to \((10+0.1)^3\)
 \begin{align*}
-(10+0.1)^3 &= \sum_{i=0}^3 {i \choose 3} (10)^i(0.1)^{3-i} \\
-&= \sum_{i=0}^3 {i \choose 3}(10)^i(10^{-1})^{3-i} \\
-&= \sum_{i=0}^3 {i \choose 3}(10)^i(10)^{i-3} \\
-&= \sum_{i=0}^3 {i \choose 3}(10)^{2i-3} \\
+(10+0.1)^3 &= \sum_{i=0}^3 {3 \choose i} (10)^i(0.1)^{3-i} \\
+&= \sum_{i=0}^3 {3 \choose i}(10)^i(10^{-1})^{3-i} \\
+&= \sum_{i=0}^3 {3 \choose i}(10)^i(10)^{i-3} \\
+&= \sum_{i=0}^3 {3 \choose i}(10)^{2i-3} \\
 &= (10)^{-3} +3(10)^{-1} + 3(10) + (10)^3
 \end{align*}
 \end{solution}
@@ -233,7 +234,7 @@ Evaluate
 \begin{solution}
 Expand the term inside the cube to \((100+(-1))^3\)
 \begin{align*}
-(100-1)^3 &= \sum_{i=0}^3 {i \choose 3} (100)^i(-1)^{3-i} \\
+(100-1)^3 &= \sum_{i=0}^3 {3 \choose i} (100)^i(-1)^{3-i} \\
 &= (-1)^{3} + 3(100)(-1)^2 + 3(100)^2(-1) + (100)^3
 \end{align*}
 \end{solution}
@@ -341,25 +342,39 @@ Since only the \(x-3\) term is negative, this interval too satisfies our conditi
 \begin{align*}
 (x-3)(x+2)x < 0 &&x \in (3, \infty)
 \end{align*}
-Beyond this point all our values are positive, thus our condition is not satisfied. The interval satisfying our requirement are therefore
+Beyond this point all our vales are positive, not satisfying our condition.
+We can sum up our results in the following table (Courtesy of Sherlock for the idea!)
+
+\[
+\begin{array}{c|c|c|c|c}
+Interval& x-3 & x+2 & x & Product \\
+\midrule
+(-\infty, -2) &- & - & - & - \\
+(-2, 0) &- & + & - & + \\
+(0,3) &- & + & + & - \\
+(3, \infty) &+ & + & + & + 
+\end{array}
+\]
+
+Our solution is therefore
 \begin{align*}
 (-\infty, -2) \cup (0, 3)
 \end{align*}
 \end{solution}
 
+
 \begin{tikzpicture}
-\begin{axis}[axis lines=middle, ymin=-10, ymax=5, xmin=-5, xmax=5, width = 12cm, height =8cm]
-\addplot[color=blue, thick, samples=50]{(x-3)*(x+2)*x};
-\addplot[name path=leftcurve, color=blue, thick, samples=50, draw=none, domain=-5:-2]{(x-3)*(x+2)*x};
-\addplot[name path=rightcurve, color=blue, thick, samples=50, draw=none, domain=0:3]{(x-3)*(x+2)*x};
-\addplot[name path=leftaxis, domain=-5:-2, draw=none] {0};
-\addplot[name path=rightaxis, domain=0:3, draw=none] {0};
-\addplot[gray!40] fill between[of=leftcurve and leftaxis];
-\addplot[gray!40] fill between[of=rightcurve and rightaxis];
+\begin{axis}[axis lines=middle, 
+    ymin=-10, ymax=5, xmin=-5, xmax=5, 
+    width = 12cm, height =8cm]
+    
+\addplot[name path = curve, color=blue, thick, samples=50]{(x-3)*(x+2)*x};
+\addplot[name path = axis, draw=none] {0};
+\addplot[gray!40] fill between[of=curve and axis, soft clip = {domain = -5:-2}];
+\addplot[gray!40] fill between[of=curve and axis, soft clip = {domain = 0:3}];
 \end{axis}
 \end{tikzpicture}
 
-\newpage
 \begin{problem}
 \[
 -2 < 1 - \frac{1}{x} < 0
@@ -377,33 +392,35 @@ Since the final \(> 0\) condition ensures that \(1-x\) is positive, we can divid
 \end{align*}
 The last inequality is trivial so we omit it. We now check when \(\frac{2x}{1-x} > 1\) or rather, \(\frac{3x-1}{1-x} > 0\). Observe that \(1-x\) is positive on the domain \((-\infty, 1)\) and negative otherwise\footnote{We omit the point 1 since our expression is undefined at that point}, similarly \(3x-1\) is positive on the domain \((\frac{1}{3}, \infty)\) and negative otherwise. \\ 
 
-All in all this gives us the three domains \(\{(-\infty, \frac{1}{3}), (\frac{1}{3}, 1), (1, \infty)\}\). Evaluating the expression we observe that 
-\begin{align*}
-\frac{3x-1}{1-x} && x \in \left(-\infty, \frac{1}{3}\right)
-\end{align*}
-The numerator is negative whilst the denominator is positive, thus this does not satisfy our condition.
-\begin{align*}
-\frac{3x-1}{1-x} && x \in \left(\frac{1}{3}, 1\right)
-\end{align*}
-The numerator is positive and so is the denominator, thus this interval satisfies our condition.
-\begin{align*}
-\frac{3x-1}{1-x} && x \in (1, \infty)
-\end{align*}
-Here, the numerator is positive but the denominator is negative, thus this interval too does not satisfy our condition.
+All in all this gives us the three domains \(\{(-\infty, \frac{1}{3}), (\frac{1}{3}, 1), (1, \infty)\}\). We must now evaluate our numerator and denominator on each domain. Again, we can use a handy table to quickly arrange and summarize our results.
 
-The only interval is therefore 
+\[
+\begin{array}{c|c|c|c}
+Interval & 3x-1 & 1 - x & Product \\
+\midrule
+\left(-\infty, \frac{1}{3}\right) & - & + & - \\[3pt]
+\left(\frac{1}{3}, 1\right) & + & + & + \\[3pt]
+(1, \infty) & + & - & -
+\end{array}
+\]
+
+The only valid interval is therefore 
 \[
 \left(\frac{1}{3}, 1\right)
 \]
 
 \begin{tikzpicture}
-\begin{axis}[axis lines=middle, ymin=-3, ymax=3, xmin=-2, xmax=2, width = 12cm, height =8cm]
-\addplot[color=blue, thick, samples=50, domain=-2:2]{1-1/x};
-\addplot[name path=curve, color=blue, thick, samples=50, domain=0.3333:1, draw=none]{1-1/x};
-\addplot[name path=axis, domain=0.3333:1, draw=none] {0};
-\addplot[color=gray, dashed] coordinates {(0.3333, -3) (0.3333, 3)};
-\addplot[gray!40] fill between[of=curve and axis];
+\begin{axis}[axis lines=middle, 
+    ymin=-3, ymax=3, xmin=-2, xmax=2, 
+    width = 12cm, height =8cm]
+    
+\addplot[name path=curve, color=blue, thick, samples=50, domain=-2:2]{1-1/x};
+\addplot[gray, dashed] coordinates {(1/3,-3) (1/3,3)};
+\addplot[name path=axis, draw=none]{0};
+\addplot[gray!40] fill between[of = curve and axis, soft clip = {domain = 1/3:1}];
+
 \end{axis}
 \end{tikzpicture}
+
 \end{solution}
 \end{document}
