@@ -1,0 +1,325 @@
+\documentclass[a4paper]{article}
+
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{pgfplots}
+\usepackage{booktabs}
+\usepgfplotslibrary{fillbetween}
+
+\newtheorem{remark}{Remark}[section]
+\newtheorem{definition}{Definition}[section]
+\theoremstyle{definition}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{condition}{Assumption}[section]
+\newtheorem{insight}{Insight}[section]
+\newtheorem{problem}{Problem}[section]
+\newtheorem*{solution}{Solution}
+
+\setlength{\parindent}{0pt}   % no paragraph indentation
+\setlength{\parskip}{20pt}    % vertical space between paragraphs
+
+\title{Math Prep Course Day Four}
+\author{Ashhad Shahzad}
+\date{September 2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Function Composition}
+
+\begin{problem}
+Find the domain of
+\begin{align*}
+f(x) = \frac{7 -\sqrt{x^2-9}}{\sqrt{25-x^2}}
+\end{align*}
+\end{problem}
+\begin{solution}
+We can decompose \(f(x)\) into its numerator and denominator functions and take the intersection of their domain. That can be done as follows
+\begin{align*}
+x^2 - 9 &\geq 0 \\
+x^2 &\geq 9 \\
+x &\geq |3| \\ \\
+25 - x^2 &\geq 0 \\
+x^2 &\leq 25 \\
+x &\leq |5|
+\end{align*}
+
+And so the intersection of the domains is simply \((-5, -3] \cup [3, 5)\).
+\end{solution}
+
+
+\begin{problem}
+Let \(f(x) = \sqrt{x}\), \(g(x) = \frac{4}{5-x}\), \(h(x) = x^2\). Find
+\begin{align*}
+(h(h \circ g\circ f - f))(4)
+\end{align*}
+And it's domain
+\end{problem}
+
+\begin{solution}
+\begin{align*}
+h(h \circ g \circ f- f) &= \left(\left(\frac{4}{5-\sqrt{x}}\right)^2 -\sqrt{x}\right)^2 \\
+(h(h \circ g\circ f -f))(4) &= \left(\left(\frac{4}{5-\sqrt{4}}\right)^2 - \sqrt{4}\right)^2 \\
+    &= \left(\left(\frac{4}{5-2}\right)^2 - 2\right)^2 \\
+    &= \left(\left(\frac{4}{3}\right)^2 - 2\right)^2 \\
+    &= \frac{4}{81}
+\end{align*}
+The domain is clearly \([0, \infty)/\{25\}\)
+\end{solution}
+
+\section{Polynomials}
+I've solved some of these using long division instead of the remainder theorem for my own sake. The remainder theorem is however far more efficient.
+\begin{problem}
+Given that \((x-3)\) is a factor of 
+\begin{align*}
+f(x) = x^3 - 2x^2 + kx +6
+\end{align*}
+Show that \(k=-5\).
+\end{problem}
+\begin{solution}
+\[
+\begin{array}{r|l}
+& x-3 \\
+\midrule
+x^2 & x^3 -2x^2 +kx +6 \\
+& -x^3 +3x^2 \\
+\midrule
+x & x^2 +kx +6 \\
+& -x^2 + 3x \\
+\midrule
+k+3 & (k+3)x +6 \\
+& -(k+3)x +3k+39\\
+\midrule
+& 3k+15
+\end{array}
+\]
+
+Since \(3k+15 = 0\), we obtain \(k=-5\)
+\end{solution}
+
+\begin{problem}
+Evaluate
+\begin{align*}
+(x^5 -4x^4 +2x^3 -3x^2 +4x +1) \div (x^2 +x +1)
+\end{align*}
+\end{problem}
+
+\begin{solution}
+\[
+\begin{array}{r|l}
+& (x^2 + x + 1) \\
+\midrule
+x^3 & x^5- 4x^4 + 2x^3 -3x^2 +4x +1   \\
+& -x^5 -x^4 -x^3 \\
+\midrule
+-5x^2 & -5x^4 +x^3 -3x^3 +4x +1 \\
+&5x^4 + 5x^3 + 5x^2 \\
+\midrule
+6x & 6x^3 +2x^2 +4x +1 \\
+& -6x^3 -6x^2 -6x \\
+\midrule
+-4 & -4x^2 -2x +1 \\
+& 4x^2 +4x +4 \\
+\midrule
+& 2x + 5
+\end{array}
+\]
+\end{solution}
+
+\begin{problem}
+Find the remainder
+\begin{align*}
+(4x^3 -2x^2 +x +1) \div  (x-1)
+\end{align*}
+\end{problem}
+
+\begin{solution}
+\[
+\begin{array}{r|l}
+& x-1 \\
+\midrule
+4x^2  & 4x^3 -2x^2 +x +1 \\
+& -4x^3 + 4x^2 \\
+\midrule
+2x & 2x^2 +x +1 \\
+& -2x^2 + 2x \\
+\midrule
+3 & 3x+1 \\
+& -3x + 3 \\
+\midrule
+&4
+\end{array}
+\]
+\end{solution}
+
+
+\begin{problem}
+\begin{align*}
+f(x) = ax^3 -7x^2 +1
+\end{align*}
+Has the factor \((x-1)\). Find \(a\).
+\end{problem}
+
+\begin{solution}
+\[
+\begin{array}{r|l}
+& x-1 \\
+\midrule
+ax^2 & ax^3 - 7x^2 +1 \\
+& -ax^3 + ax^2 \\
+\midrule
+(a-7)x & (a-7)x^2 +1 \\
+& (7-a)x^2 + (a-7)x \\
+\midrule
+(7-a) & (a-7)x +1 \\
+& (7-a)x + (a-7) \\
+\midrule
+& a -6
+\end{array}
+\]
+
+Since the remainder must be zero, we obtain \(a=6\)
+\end{solution}
+
+\begin{problem}
+\begin{align*}
+5x^6 -3x^5 -x^4 +1  = (x-1)(x-2) - x^2 +3x +1 
+\end{align*}
+\end{problem}
+
+\begin{solution}
+\begin{align*}
+5x^6 -3x^5 -x^4 + 1 &= x^2 -3x +2 -x^2 +3x +1 \\
+5x^6 -3x^5 -x^4 &= 0 \\
+x^4(5x^2 -3x -1) &= 0 \\
+\end{align*}
+Solving for the quadratic, we obtain the solutions 
+\[
+x= \left\{0,\ \frac{3 \pm \sqrt{29}}{10} \right\}
+\]
+\end{solution}
+
+\section{Logarithmic and Exponential Functions}
+
+\begin{problem}
+\begin{align*}
+\log_2 x  = \log_2 x^2 -4
+\end{align*}
+\end{problem}
+
+\begin{solution}
+\begin{align*}
+\log_2 x &= 2 \log_2 x - 4 \\
+\log_2 x &= 4 \\
+x &= 2^4 \\
+x &= 16
+\end{align*}
+\end{solution}
+
+\begin{problem}
+\begin{align*}
+2^x = 64
+\end{align*}
+\end{problem}
+
+\begin{solution}
+\begin{align*}
+2^x &= 64 \\
+x &= \log_2(2^6) \\
+x &= 6 \\
+\end{align*}
+\end{solution}
+
+\begin{problem}
+\begin{align*}
+\ln(x-1) - \ln(x^2-1) = e
+\end{align*}
+\end{problem}
+
+\begin{solution}
+\begin{align*}
+\ln\left(\frac{x-1}{x^2-1}\right) &= e \\
+\ln(x+1) &= -e \\
+x+1 &= e^{-e} \\
+x &= e^{-e} -1
+\end{align*}
+However, \(e^{-e} -1 < 1\), which makes the expression \(\ln(x-1)\) invalid, therefore we have an extraneous solution and the equation is unsatisfiable in \(\mathbb{R}\)
+\end{solution}
+
+\begin{problem}
+Find the domain and range of \(x = \ln(e^x)\).
+\end{problem}
+
+\begin{solution}
+Observe that \(e^x\) is defined over all of \(\mathbb{R}\) and has range \((0, \infty)\). Note that this is precisely the domain of the \(\ln\) function, which has the range \((-\infty, \infty)\). Therefore the domain and range of the function are both \(\mathbb{R}\).
+
+In fact its just the constant function \(x\) since its the composition of a function with its inverse lmao.
+\end{solution}
+
+\begin{problem}
+\begin{align*}
+\log_2 x + \log_x 2 +1 = 0
+\end{align*}
+\end{problem}
+
+\begin{solution}
+\begin{align*}
+\log_2 x + \frac{\log_2 2}{\log_2 x} +1 &=0 && \because \log_ab = \frac{\log_c b}{\log_c a} \\
+\log_2 x + \frac{1}{\log_2x} +1 &= 0 \\
+(\log_2x)^2 + \log_2 x+ 1 &= 0 \\
+y^2 + y + 1 &=0 && \because let\ y =\log_2 x \\
+\end{align*}
+
+Since the solution is complex, I'm not going to evaluate it further.
+\end{solution}
+
+\begin{problem}
+\begin{align*}
+\log_5 x+ \log_{10}8 = 1
+\end{align*}
+\end{problem}
+
+\begin{solution}
+\begin{align*}
+\log_5x &= 1- \log_{10}8 \\
+x &= 5^{(1-\log_{10} 8)}
+\end{align*}
+\end{solution}
+
+\begin{problem}
+\begin{align*}
+(e^x)^2 + \ln e^{e^x} + e^{\ln_e 5} = 0
+\end{align*}
+\end{problem}
+
+\begin{solution}
+\begin{align*}
+(e^x)^2 + e^x + 5 &= 0 \\
+y^2 + y + 5 &= 0 && \because y = e^x
+\end{align*}
+
+Again, the solution is complex.
+\end{solution}
+
+\begin{problem}
+\begin{align*}
+x^2 = e^{\ln\left(\frac{1}{5}x\right)+ \ln(5x)} + \log_{10}e^{10}
+\end{align*}
+\end{problem}
+
+\begin{solution}
+\begin{align*}
+x^2 &= \left(\frac{x}{5}\right)(5x) + 10 \log_{10} e \\
+0 &= 10\log_{10} {e}
+\end{align*}
+
+Thus the equation has no solutions.
+\end{solution}
+
+\end{document}
