@@ -6,6 +6,7 @@
 \usepackage{xcolor}
 \usepackage{pgfplots}
 \usepackage{booktabs}
+\usepackage[most]{tcolorbox}
 \usepgfplotslibrary{fillbetween}
 
 \newtheorem{remark}{Remark}[section]
@@ -17,7 +18,11 @@
 \newtheorem{corollary}{Corollary}[section]
 \newtheorem{condition}{Assumption}[section]
 \newtheorem{insight}{Insight}[section]
+
 \newtheorem{problem}{Problem}[section]
+
+
+
 \newtheorem*{solution}{Solution}
 
 \setlength{\parindent}{0pt}   % no paragraph indentation
@@ -33,12 +38,12 @@
 
 \section{Function Composition}
 
-\begin{problem}
-Find the domain of
+\begin{problem}{Find The Domain of}
 \begin{align*}
 f(x) = \frac{7 -\sqrt{x^2-9}}{\sqrt{25-x^2}}
 \end{align*}
 \end{problem}
+
 \begin{solution}
 We can decompose \(f(x)\) into its numerator and denominator functions and take the intersection of their domain. That can be done as follows
 \begin{align*}
@@ -189,13 +194,13 @@ Since the remainder must be zero, we obtain \(a=6\)
 
 \begin{problem}
 \begin{align*}
-5x^6 -3x^5 -x^4 +1  = (x-1)(x-2) - x^2 +3x +1 
+5x^6 -3x^5 -x^4 +1  = (x-1)(x-2) - x^2 +3x -1
 \end{align*}
 \end{problem}
 
 \begin{solution}
 \begin{align*}
-5x^6 -3x^5 -x^4 + 1 &= x^2 -3x +2 -x^2 +3x +1 \\
+5x^6 -3x^5 -x^4 + 1 &= x^2 -3x +2 -x^2 +3x -1 \\
 5x^6 -3x^5 -x^4 &= 0 \\
 x^4(5x^2 -3x -1) &= 0 \\
 \end{align*}
