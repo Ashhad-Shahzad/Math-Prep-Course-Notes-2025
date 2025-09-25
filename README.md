@@ -3,3 +3,7 @@ I have to the best of my ability ensured that the material and solutions contain
 
 My email address is ashhadprime@gmail.com 
 But I'll be more readily available on whatsapp, you can find me in the Freshers group chat!
+
+And a supermassive thank you to Blxke whose LaTeX template 'YoRHa' I used to stylize my documents. You can find his preambles/templates on his github page.
+
+https://github.com/blxkex/Latex-Notes-Templates
