@@ -1,0 +1,239 @@
+\documentclass{article}
+\usepackage{import}
+\usepackage{xcolor}
+\usepackage{textcomp,mathcomp}
+\usepackage{cancel}
+\usepackage{float}
+\usepackage{forloop}
+\usepackage{pgfplots}
+\usepackage{booktabs}
+\usepackage{nicematrix}
+\usepgfplotslibrary{fillbetween}
+
+
+\usepackage[version=4]{mhchem}
+\usepackage{multido}
+
+\definecolor{yorhabg}{HTML}{C8C2AA}
+\definecolor{yorhafg}{HTML}{4D493E}
+\definecolor{yorhagrid}{HTML}{B5AF9C}
+\definecolor{gruvred}{HTML}{91221D}
+
+\pagecolor{yorhabg}
+\color{yorhafg}
+
+% \import{project1 (pblock)}{preamble.sty}
+
+% Removes padding above title
+\usepackage{titling}
+\setlength{\droptitle}{-10em}
+
+% Font package
+\usepackage[T1]{fontenc}
+
+\usepackage{fouriernc}
+
+\usepackage{calc}
+
+
+\usepackage{sectsty}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[most]{tcolorbox}
+
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usetikzlibrary{calc,shadows.blur}
+
+\usepackage[backend=biber,style=ieee,citestyle=numeric-comp,sorting=none]{biblatex}
+\addbibresource{sample.bib}
+
+\AddToShipoutPictureBG{%
+	\begin{tikzpicture}[remember picture, overlay,
+		help lines/.append style={line width=0.05pt, color=yorhagrid}]
+		\draw[help lines] (current page.south west) grid[step=5pt]
+		(current page.north east);
+	\end{tikzpicture}%
+}
+
+% Margins
+\topmargin=0in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\AtBeginEnvironment{tcolorbox}{\small}
+
+\newtcolorbox[auto counter, number within=section]{question}{%
+	enhanced,
+	colback=yorhabg,
+	colframe=yorhafg,
+	coltext=yorhafg,
+	coltitle=yorhabg,
+	title={\textbf{Question~\thetcbcounter}},
+	arc=0pt,
+	outer arc=0pt,
+	drop shadow southeast,
+	sharp corners,
+}
+
+\newtcolorbox{boxx}{%
+	enhanced,
+	breakable,
+	colback=yorhabg,
+	colframe=yorhafg,
+	coltext=yorhafg,
+	coltitle=yorhabg,
+	arc=0pt,
+	outer arc=0pt,
+	drop shadow southeast,
+	sharp corners,
+}
+
+\newtcolorbox{imp}{enhanced,arc=0mm,colback=yorhabg,colframe=yorhafg,leftrule=10mm,coltext=yorhafg,%
+	overlay={\node[anchor=west,outer sep=1pt] at (frame.west) {\scalebox{1}{\textcolor{yorhabg}{\textbf{Info}}}}; }}
+
+\newcommand\bb[1]{\textcolor{yorhafg}{\textbf{#1}}}
+
+\newcommand\ph{\textrm{pH}}
+\newcommand\poh{\textrm{pOH}}
+
+\newcommand\mybox[2][]{\tikz[overlay]\node[fill=yorhafg, color=yorhabg, inner sep=2pt, anchor=text, rectangle, rounded corners=1mm,#1] {#2};\phantom{#2}}
+
+
+\pgfplotsset{
+	every axis/.append style={
+		legend style={
+			fill=yorhagrid,     % dark background
+			draw=yorhafg,        % white border
+			text=yorhafg,
+			rounded corners
+		}
+	}
+}
+
+
+\title{Math Prep Course Day Five}
+\author{Ashhad Shahzad}
+\date{September 2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Trigonometric funtions}
+
+\begin{question}{}{}
+Find the Maximum and minimum value of \(\sin^2(\theta) + \cos^4(\theta) \)
+\end{question}
+
+\begin{align*}
+	f(\theta) &=\sin^2 (\theta) + (\cos^2 (1-\sin^2)) \theta \\
+	f(\theta) &=\sin^2 (\theta) + \cos^2 (\theta) - \cos^2 (\theta) \sin^2 (\theta) \\
+	f(\theta) &=1 - (\cos *\sin)^2 (\theta)
+\end{align*}
+
+Since the term \((\cos *\sin)^2\) is always positive, our maximum point will be when that term is equal to zero, which gives us a maximum value of \(1\). Similarly, our minimum point will be when that term is maximum. For that, we may solve
+
+\begin{align*}
+	\cos *\sin (\theta) &= \frac{\sin (2\theta)}{2} \\
+\end{align*}
+
+Since the maximum value of \(\sin\) is 1, the maximum value of \((\cos *\sin)^2\) turns out to be \(\frac{1}{4}\). Thus the minimum value of our function is \(\frac{3}{4}\)
+
+\begin{question}
+	If \(x+y+z =xyz\) then prove that
+	\begin{align*}
+		\frac{x}{1-x^2} + \frac{y}{1-y^2} + \frac{z}{1-z^2} = \frac{4xyz}{(1-x^2)(1-y^2)(1-z^2)}
+	\end{align*}
+\end{question}
+I'm going to leverage a decent amount of shortcuts here because the calculation is so tedious if you write everything out. The notation \(\sum_{cyc}\) means that you will write out three terms alternating between the variables, i.e. \(\sum_{cyc}x+y\) means \((x+y) + (y+z) + (z+x)\). I highly recommend that if you aren't familiar with this notation that you explicitly write everything out and see how the steps follow, its a good exercise in notation.
+\begin{align*}
+	S_1 &= x+y+z \\
+	S_2 &= xy +yz +zx \\
+	S_3 &= xyz
+\end{align*}
+Now do the cross multiplication of the LHS with respect to each denominator.
+Then our numerator becomes
+\begin{align*}
+	\sum_{cyc} x(1-y^2-z^2+y^2z^2) &= \sum_{cyc}x + \sum_{cyc}xy^2z^2 - \sum_{cyc}x(y^2+z^2) \\
+	&= S_1 + S_3\sum_{cyc}xy - \sum_{cyc}x^2(y+z) \\
+	&= S_3 + S_1\sum_{cyc}xy - \sum_{cyz}x^2(y+z) \\
+	&= S_3 + \sum_{cyc}xyz + \sum_{cyc}(x^2y + y^2x) - \sum_{cyc}x^2(y+z)\\
+	&= 4S_3
+\end{align*}
+The final solution thus becomes, as desired
+\begin{align*}
+	\frac{4xyz}{(1-x^2)(1-y^2)(1-z^2)}
+\end{align*}
+
+\begin{question}
+	Find the number of solutions of
+	\begin{align*}
+		3\sin^2x - 7\sin x +2 = 0 && x\in [0, 5\pi]
+	\end{align*}
+\end{question}
+
+Let \(\sin x = y\) and solve the quadratic 
+\begin{align*}
+	3y^2 -7y +2 &= 0 \\
+\end{align*}
+The solution set is \(\left\{\frac{1}{3}, 2\right\}\). Note that \(2\) is extraneous since \(\sin\) can never be greater than one. Note that in its cycle, from \(\left(0, \frac{\pi}{2}\right)\) sin increases from 0 to 1, by IVT it must pass through \(\frac{1}{3}\) and by monotonicity it does so only once. A similar conclusion can be drawn for \(\left(\frac{\pi}{2}, \pi\right)\). In the latter half, the \(\sin\) function becomes negative. Thus in \(5\pi\), the \(\sin\) function will hit \(\frac{1}{3}\) six times owing to its \(2\pi\) periodicity. 
+\begin{question}
+	Find the number of solutions of
+	\begin{align*}
+		\tan x + \sec x = 2\cos x && x \in [0, 2\pi]
+	\end{align*}
+\end{question}
+
+\begin{align*}
+	\frac{\sin x}{\cos x} + \frac{1}{\cos x} &= 2\cos x \\
+	\frac{\sin x}{\cos^2 x} + \frac{1}{\cos ^2 x} - 2 &= 0 \\
+	\sin x + 1 -2\cos^2 x &= 0 \\
+	2\sin^2 + \sin x - 1 &= 0 \\
+	2y^2 + y -1 &= 0
+\end{align*}
+This quadratic has the solutions \(\left\{-1, \frac{1}{2}\right\}\). In terms of angles this gives us \(\left\{\frac{3\pi}{2}, \frac{\pi}{6}, \frac{5\pi}{6}\right\}\). Note however that the first root in the set is extraneous since \(\cos\) is zero at that value making the expression undefined. The two solutions are therefore
+
+\begin{align*}
+	\left\{\frac{\pi}{6}, \frac{5\pi}{6}\right\} \\
+\end{align*}
+
+\begin{question}
+	Solve \(\tan^2 x- (1-\sqrt{3})\tan x + \sqrt{3} < 0\)
+\end{question}
+
+\begin{align*}
+	y^2 - (1 - \sqrt{3})y + \sqrt{3} &< 0 \\
+	y &= \frac{1 - \sqrt{3} \pm \sqrt{(4-2\sqrt{3}) -4\sqrt{3}}}{2} \\
+	y &= \frac{1 - \sqrt{3} \pm \sqrt{24 - 16\sqrt{3}}}{2}
+\end{align*}
+Since the solutions are complex and the parabola is upward facing as the leading square coefficient is positive, the parabola lies completely above \(y = 0\) and thus the inequality is never satisfied. The solution is just the set \(\emptyset\)
+
+\begin{question}
+	Draw \(y = 5\sin \left(2x + \frac{\pi}{2}\right)\)
+\end{question}
+
+\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+			axis lines = middle,
+			domain=0:2*pi,
+			samples=200,
+			xtick={0, pi/4, pi/2, 3*pi/4, pi, 5*pi/4, 3*pi/2,7*pi/4, 2*pi},
+			xticklabels={$0$, $\tfrac{\pi}{4}$, $\tfrac{\pi}{2}$, $\tfrac{3\pi}{4}$, $\pi$, $\tfrac{5\pi}{4}$, $\tfrac{3\pi}{2}$, $\tfrac{7\pi}{4}$, $2\pi$},
+			ytick={-5,-2.5,0,2.5,5},
+			xlabel={$x$},
+			ylabel={$y$},
+			grid=both
+			]
+			\addplot[color=gruvred, domain=0:2*pi, samples=200]
+			{5*sin(deg(2*x + pi/2))};
+			\addlegendentry{\(5\sin \left(2x + \frac{\pi}{2}\right)\)}
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
+\end{document}
