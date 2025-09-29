@@ -1,0 +1,274 @@
+\documentclass[a4paper]{article}
+
+\usepackage{import}
+\usepackage{xcolor}
+\usepackage{textcomp,mathcomp}
+\usepackage{cancel}
+\usepackage{float}
+\usepackage{forloop}
+\usepackage{pgfplots}
+\usepackage{booktabs}
+\usepgfplotslibrary{fillbetween}
+
+
+\usepackage[version=4]{mhchem}
+\usepackage{multido}
+
+\definecolor{yorhabg}{HTML}{C8C2AA}
+\definecolor{yorhafg}{HTML}{4D493E}
+\definecolor{yorhagrid}{HTML}{B5AF9C}
+\definecolor{gruvred}{HTML}{91221D}
+
+\pagecolor{yorhabg}
+\color{yorhafg}
+
+% \import{project1 (pblock)}{preamble.sty}
+
+% Removes padding above title
+\usepackage{titling}
+\setlength{\droptitle}{-10em}
+
+% Font package
+\usepackage[T1]{fontenc}
+
+\usepackage{fouriernc}
+
+\usepackage{calc}
+
+
+\usepackage{sectsty}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[most]{tcolorbox}
+
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usetikzlibrary{calc,shadows.blur}
+
+\usepackage[backend=biber,style=ieee,citestyle=numeric-comp,sorting=none]{biblatex}
+\addbibresource{sample.bib}
+
+\AddToShipoutPictureBG{%
+	\begin{tikzpicture}[remember picture, overlay,
+		help lines/.append style={line width=0.05pt, color=yorhagrid}]
+		\draw[help lines] (current page.south west) grid[step=5pt]
+		(current page.north east);
+	\end{tikzpicture}%
+}
+
+% Margins
+\topmargin=0in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\AtBeginEnvironment{tcolorbox}{\small}
+
+\newtcolorbox[auto counter, number within=section]{question}{%
+	enhanced,
+	colback=yorhabg,
+	colframe=yorhafg,
+	coltext=yorhafg,
+	coltitle=yorhabg,
+	title={\textbf{Question~\thetcbcounter}},
+	arc=0pt,
+	outer arc=0pt,
+	drop shadow southeast,
+	sharp corners,
+}
+
+\newtcolorbox{solution}{%
+	enhanced,
+	breakable,
+	colback=yorhabg,
+	colframe=yorhafg,
+	coltext=yorhafg,
+	coltitle=yorhabg,
+	arc=0pt,
+	outer arc=0pt,
+	drop shadow southeast,
+	sharp corners,
+}
+
+\newtcolorbox{imp}{enhanced,arc=0mm,colback=yorhabg,colframe=yorhafg,leftrule=10mm,coltext=yorhafg,%
+	overlay={\node[anchor=west,outer sep=1pt] at (frame.west) {\scalebox{1}{\textcolor{yorhabg}{\textbf{Info}}}}; }}
+
+\newcommand\bb[1]{\textcolor{yorhafg}{\textbf{#1}}}
+
+\newcommand\ph{\textrm{pH}}
+\newcommand\poh{\textrm{pOH}}
+
+\newcommand\mybox[2][]{\tikz[overlay]\node[fill=yorhafg, color=yorhabg, inner sep=2pt, anchor=text, rectangle, rounded corners=1mm,#1] {#2};\phantom{#2}}
+
+
+\pgfplotsset{
+	every axis/.append style={
+		legend style={
+			fill=yorhagrid,     % dark background
+			draw=yorhafg,        % white border
+			text=yorhafg,
+			rounded corners
+		}
+	}
+}
+
+
+\title{Math Prep Course Day One}
+\author{Ashhad}
+
+\begin{document}
+
+\maketitle
+
+\section{Differential Calculus}
+
+\begin{question}
+	Find \(\lim_{x \to 4} \frac{x^2-x-12}{x-4}\)
+\end{question}
+
+\begin{align*}
+	&\lim_{x \to 4} \frac{(x-4)(x+3)}{x-4} \\
+	&=7
+\end{align*}
+
+\begin{question}
+	Find \(\lim_{x \to 3} \frac{x+2}{x-3}\)
+\end{question}
+
+Observe that
+\begin{align*}
+	\lim_{x \to 3^+} \frac{x+2}{x-3} = +\infty \\
+	\lim_{x \to 3^-} \frac{x+2}{x-3} = -\infty \\
+\end{align*}
+
+Since the limits do not agree, and there exists no factorization or other simplification, the limit simply does not exist.
+
+\begin{question}
+	Find \(\lim_{h \to 0} \frac{f(x+h)- f(x)}{h}\) Where \(f(x) = 4x^2-x\)
+\end{question}
+
+\begin{align*}
+	&\lim_{h \to 0} \frac{(4x^2 + 8xh + 4h^2 - x - h) - (4x^2 -x)}{h} \\
+	&\lim_{h \to 0} \frac{8xh - h - 4h^2}{h} \\
+	&\lim_{h \to 0} 8x - 1 - 4h \\
+	&8x -1
+\end{align*}
+
+\begin{question}
+	Find \(\lim_{x \to \pm \infty} \frac{4x^3+20x^2}{x^4-1}\)
+\end{question}
+
+Here we can simply utilize the fact that the denominator grows faster than the numerator, therefore for \(x \to \pm \infty\) the numerator becomes negligible compared to the denominator, thus the limit evaluates to zero.
+
+\begin{question}
+	Find \(\lim_{x \to \infty} \frac{\sin x}{x}\)
+\end{question}
+
+For this it is sufficient to note that \(\sin x \leq |1|\).
+
+\begin{align*}
+	\lim_{x \to \infty} \frac{\sin x}{x} &\leq \lim_{x \to \infty} \frac{|1|}{x} \\
+	\lim_{x \to \infty} -\frac{1}{x} &\leq \lim_{x \to \infty} \frac{\sin x}{x} \leq \lim_{x \to \infty} \frac{1}{x} \\
+	0 &\leq \lim_{x \to \infty} \frac{\sin x}{x} \leq 0 \\
+\end{align*}
+
+By the sandwich theorem, we can now conclude that the function approaches zero as \(x\) tends to infinity.
+
+\begin{question}
+	Find \(\lim_{x \to 0} \frac{\sin x}{x}\)
+\end{question}
+Using the Taylor expansion of the sin function around zero we obtain
+\begin{align*}
+	\lim_{x \to 0} \frac{x - \frac{x^3}{3!} + \frac{x^5}{5!}...}{x} \\
+	\lim_{x \to 0} 1 - \frac{x^2}{3!} + \frac{x^4}{5!}... \\
+	1
+\end{align*}
+
+It is important to note that since we have utilized the Taylor expansion around zero, this formula only holds true when \(\frac{x^2}{3!} << 1\).
+
+\begin{question}
+	Find \(\frac{d^n(y)}{dx^n}\) for \(y = \frac{1}{3+x}\)
+\end{question}
+
+By playing around with repeated applications of the derivative operator we expect the general form of the solution to look something like
+
+\begin{align*}
+	\frac{d^n(y)}{dx^n} = (-1)^n \frac{n!}{(3+x)^{n+1}} 
+\end{align*}
+
+We can verify this by induction. It is obvious that this holds for n=0, where by convention we take \((-1)^0 = 1\) and \(0! = 1\). For the inductive case we observe that
+\begin{align*}
+	\frac{d}{dx} \frac{d^n(y)}{dx^n} &= \frac{d}{dx} (-1)^n \frac{n!}{3+x^{n+1}} \\
+	&= (-1)^n n! \frac{d}{dx} \frac{1}{(3+x)^{n+1}} \\
+	&= (-1)^n n! \frac{-(n+1)}{(3+x)^{n+2}} \\
+	&= (-1)^{n+1} \frac{(n+1)!}{(3+x)^{n+2}}
+\end{align*} 
+
+\begin{question}
+	If \(x^2 + 2xy + 3y^2 = 2\) find \(y'\) and \(y''\) when y=1.
+\end{question}
+
+First we must find the value of \(x\) when \(y=1\)
+
+\begin{align*}
+	x^2 + 2x + 1 = 0 \\
+	(x+1)^2 = 0 \\
+	x = -1 \\
+\end{align*}
+
+Next we find \(y'\)
+
+\begin{align*}
+	\frac{d}{dx} (x^2 +2xy + 3y^2 - 2) &= 2x +2y + 2xy' + 6yy' \\
+	&= 2x + 2y + y'(2x+6y) \\
+	y' &= -\frac{x+y}{x+3y} \\
+	y'(1) &= 0 \\
+\end{align*}
+
+Finally, we find \(y''\)
+
+\begin{align*}
+	y' &= -\frac{x+y}{x+3y} \\
+	y'' &= -\frac{1+y'}{x+3y} - \frac{(x+y)(1+3y')}{(x+3y)^2} \\
+	y''(1) &= -\frac{1+0}{-1+3} - 0 \\
+	 &= -\frac{1}{2}
+\end{align*}
+
+\begin{question}
+	If \(f(x) = x^4 -2x^3- x^2 -4x +3\) then for \(f'(x) = 0\) find the value of \(x\)
+\end{question}
+
+Solving for \(f'(x)\) we obtain
+\begin{align*}
+	\frac{df}{dx} = 4x^3 - 6x^2 - 2x -4 \\
+\end{align*}
+
+Unfortunately I was unable to find a way to factorize this besides either using a graphing calculator or running some python code, whatever the case, the only real root is \(x=2\) and the others are complex.
+
+\begin{question}
+	Find the absolute minima and maxima for \(f(x) = x^3 +2x^2 +x -1\) on \(x \in [-1, 1]\)
+\end{question}
+
+\begin{align*}
+	\frac{df}{dx} &= 3x^2 +4x +1
+\end{align*}
+The roots are \((3x+1)(x+1)\). We can now simply plug them into the original equation to find which one is the minima as both roots fall between \([-1,1]\).
+
+\begin{align*}
+	f(-1) = -1 + 2 - 1 -1 = -1 \\
+	f\left(-\frac{1}{3}\right) = -\frac{31}{27}
+\end{align*}
+
+Next we must calculate \(f(1)\)
+\begin{align*}
+	f(1) = 1 + 2 + 1 - 1 = 3.
+\end{align*}
+
+Now, using the double derivative test on both inflection points, note that \(f''(-1) = -2\), hence it is a local maxima and the function is decreasing from this point forward, then \(f''\left(-\frac{1}{3}\right) = 2\), therefore the function is increasing after that point. Since the function is only monotone increasing on \(\left[-\frac{1}{3}, 1\right])\) in the interval, we can conclude that the maxima must either be on \(f(-1)\) (where the function was at its local maxima) or at \(f(1)\) (since that was the highest point of the function when function next increased after its minima). Indeed, \(f(1)\) is the maxima.
+
+Similarly, we may conclude that \(f\left(-\frac{1}{3}\right)\) is the absolute minimum, since it is the only local minimum.
+
+\end{document}
