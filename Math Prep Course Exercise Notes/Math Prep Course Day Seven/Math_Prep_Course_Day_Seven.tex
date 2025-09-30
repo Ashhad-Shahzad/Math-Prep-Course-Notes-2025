@@ -1,0 +1,322 @@
+\documentclass[a4paper]{article}
+
+\usepackage{import}
+\usepackage{xcolor}
+\usepackage{textcomp,mathcomp}
+\usepackage{cancel}
+\usepackage{float}
+\usepackage{forloop}
+\usepackage{pgfplots}
+\usepackage{booktabs}
+\usepgfplotslibrary{fillbetween}
+
+
+\usepackage[version=4]{mhchem}
+\usepackage{multido}
+
+\definecolor{yorhabg}{HTML}{C8C2AA}
+\definecolor{yorhafg}{HTML}{4D493E}
+\definecolor{yorhagrid}{HTML}{B5AF9C}
+\definecolor{gruvred}{HTML}{91221D}
+
+\pagecolor{yorhabg}
+\color{yorhafg}
+
+% \import{project1 (pblock)}{preamble.sty}
+
+% Removes padding above title
+\usepackage{titling}
+\setlength{\droptitle}{-10em}
+
+% Font package
+\usepackage[T1]{fontenc}
+
+\usepackage{fouriernc}
+
+\usepackage{calc}
+
+
+\usepackage{sectsty}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[most]{tcolorbox}
+
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usetikzlibrary{calc,shadows.blur}
+
+\usepackage[backend=biber,style=ieee,citestyle=numeric-comp,sorting=none]{biblatex}
+\addbibresource{sample.bib}
+
+\AddToShipoutPictureBG{%
+	\begin{tikzpicture}[remember picture, overlay,
+		help lines/.append style={line width=0.05pt, color=yorhagrid}]
+		\draw[help lines] (current page.south west) grid[step=5pt]
+		(current page.north east);
+	\end{tikzpicture}%
+}
+
+% Margins
+\topmargin=0in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\AtBeginEnvironment{tcolorbox}{\small}
+
+\newtcolorbox[auto counter, number within=section]{question}{%
+	enhanced,
+	colback=yorhabg,
+	colframe=yorhafg,
+	coltext=yorhafg,
+	coltitle=yorhabg,
+	title={\textbf{Question~\thetcbcounter}},
+	arc=0pt,
+	outer arc=0pt,
+	drop shadow southeast,
+	sharp corners,
+}
+
+\newtcolorbox{solution}{%
+	enhanced,
+	breakable,
+	colback=yorhabg,
+	colframe=yorhafg,
+	coltext=yorhafg,
+	coltitle=yorhabg,
+	arc=0pt,
+	outer arc=0pt,
+	drop shadow southeast,
+	sharp corners,
+}
+
+\newtcolorbox{imp}{enhanced,arc=0mm,colback=yorhabg,colframe=yorhafg,leftrule=10mm,coltext=yorhafg,%
+	overlay={\node[anchor=west,outer sep=1pt] at (frame.west) {\scalebox{1}{\textcolor{yorhabg}{\textbf{Info}}}}; }}
+
+\newcommand\bb[1]{\textcolor{yorhafg}{\textbf{#1}}}
+
+\newcommand\ph{\textrm{pH}}
+\newcommand\poh{\textrm{pOH}}
+
+\newcommand\mybox[2][]{\tikz[overlay]\node[fill=yorhafg, color=yorhabg, inner sep=2pt, anchor=text, rectangle, rounded corners=1mm,#1] {#2};\phantom{#2}}
+
+
+\pgfplotsset{
+	every axis/.append style={
+		legend style={
+			fill=yorhagrid,     % dark background
+			draw=yorhafg,        % white border
+			text=yorhafg,
+			rounded corners
+		}
+	}
+}
+
+
+\title{Math Prep Course Day One}
+\author{Ashhad}
+
+\begin{document}
+
+\maketitle
+
+\section{Graphing}
+
+\begin{question}
+	Find the area between the curves \(y^2=4ax\) and \(x^2 = 4ay\)
+\end{question}
+
+\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[xmin=-2, xmax=5,
+			axis lines=middle]
+			\addplot[name path=blue, color=blue!60!black, thick]{x^2/4};
+			\addlegendentry{\(x^2 = 4ay\)}
+			\addplot[name path=red, color=gruvred, thick, domain=0:5, samples=200]{sqrt(4*x)};
+			\addplot[color=gruvred, thick, domain=0:5, samples=200]{-sqrt(4*x)};
+			\addlegendentry{\(y^2 = 4ax\)}
+			\addplot[yorhagrid] fill between[of=red and blue, soft clip = {domain = 0:4}];
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+
+First we must find the intersection points, we can obtain them as follows
+\begin{align*}
+	y^2 &= 4ax \\
+	x &= \frac{y^2}{4a} \\
+	x^2 &= 4ay \\
+	\frac{y^4}{16a^2} &= 4ay \\
+	\frac{y^4 - 64a^3y}{16a^2} &= 0 \\
+	y(y^3 - 64a^3) &= 0 \\
+\end{align*}
+Resolving it further we get \(y=0,\ y=4a\). Resubstituting to find \(x\), we obtain \(x=0,\ x=4a\) as well.
+
+Given that we only have two intersection points, we can simply compute the integral of the two functions over the interval \([0, 4a]\) and take the absolute value of the difference (since area will always be positive)
+
+So integrating \(y^2 = 4ax\), note that we only need the positive right branch, thus our function becomes \(y = 2\sqrt{ax}\)
+\begin{align*}
+	F(x) &= \int_{0}^{4a} 2\sqrt{ax}dx \\
+		&= 2\sqrt{a} \int_{0}^{4a} \sqrt{x} \\
+		&= 2\sqrt{a} \left[\frac{2x^{\frac{3}{2}}}{3}\right]^{4a} _{0} \\
+		&= \frac{4}{3}\sqrt{a} \ [8a^{\frac{3}{2}} - 0] \\
+		&= \frac{32a^2}{3}
+\end{align*}
+
+Now we integrate \(x^2 = 4ay\).
+\begin{align*}
+	f(x) &= \frac{x^2}{4a} \\
+	F(x) &= \frac{1}{4a} \int_0^{4a} x^2 \\
+		&= \frac{1}{4a} \left[\frac{x^3}{3}\right]^{4a} _0 \\
+		&= \frac{1}{12a} [64a^3 - 0] \\
+		&= \frac{16a^2}{3}
+\end{align*}
+
+Thus the difference is \(\frac{16a^2}{3}\) and that is precisely the area between the two curves.
+
+\begin{question}
+	Sketch the curve \(\frac{y^2}{a^2} + \frac{x^2}{b^2} = 1\) and find the value for which the tangent is parallel to the y-axis
+\end{question}
+
+\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[axis lines = middle, xmin=-1, xmax=1, ymin=-1.5, ymax=1.5]
+			\addplot[color=gruvred, domain=-0.70710678:0.70710678, samples=200, thick]{sqrt(1-2*x^2)};
+			\addplot[color=gruvred, domain=-0.70710678:0.70710678, samples=200, thick]{-sqrt(1-2*x^2)};
+			\addlegendentry{\(\frac{y^2}{a^2} + \frac{x^2}{b^2} = 1\)}
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+In order to find the tangents parallel to the y-axis, we must find where the derivative of the function equals (or approaches) \(\pm\infty\).
+
+\begin{align*}
+	a^2x^2 + b^2y^2 &= a^2b^2 \\
+	2a^2x + 2b^2yy' &= 0 \\
+	y' &= -\frac{2a^2x}{2b^2y} \\
+\end{align*}
+
+Thus that happens when \(y =0\). Plugging this into the equation of the ellipse to find the corresponding x values we obtain 
+
+\begin{align*}
+	0 + \frac{x^2}{b^2} &= 1 \\
+	x^2 &= b^2 \\
+	x &= \pm b \\
+\end{align*}
+
+The two tangent lines are therefore \(x = \pm b\).  
+
+\begin{question}
+	Draw the curve \(y^2 = a^2 + \sin^2 x\) where \(a^2 > 0\).
+\end{question}
+
+\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[axis lines = middle, ymax=2.5, ymin=-2.5]
+			\addplot[color=gruvred, thick, samples = 200]{sqrt(1 + (sin(deg(x)))^2)};
+			\addplot[color=gruvred, thick, samples = 200]{-sqrt(1 + (sin(deg(x)))^2)};
+			\addlegendentry{\(y^2 = a^2 + \sin ^2 x\)}
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+\section{Indefinite Integrals}
+
+\begin{question}
+	Integrate
+	\begin{align*}
+		\frac{x}{4-x^2}
+	\end{align*}
+\end{question}
+
+Using the substitution \(x = 2\sin \theta\) we obtain
+\begin{align*}
+	\int \frac{x}{4-x^2}dx &= \int \frac{2\sin\theta}{4-4\sin^2\theta}(2\cos\theta d\theta) \\
+		&= \frac{4}{4} \frac{\sin\theta}{\cos^2\theta}{\cos\theta d\theta} \\
+		&= \frac{\sin\theta}{\cos\theta}d\theta \\
+		&= -\ln|\cos\theta| \\
+		&= -\ln|\sqrt{1 - \sin^2\theta}| \\
+		&= -\ln\left|\sqrt{1 - \frac{x^2}{4}}\right| \\
+		&= -\frac{1}{2} \ln\left|1 - \frac{x^2}{4}\right| + C \\
+\end{align*}
+
+\begin{question}
+	Integrate
+\begin{align*}
+	\frac{2x}{4-x^2}
+\end{align*}
+\end{question}
+
+Using the last question,
+
+\begin{align*}
+	\int \frac{2x}{4-x^2} &= 2\int \frac{x}{4-x^2} \\
+		&= -\ln\left|1-\frac{x^2}{4}\right| + C
+\end{align*}
+
+\begin{question}
+	Integrate
+\begin{align*}
+	x \sin x
+\end{align*}
+\end{question}
+
+We can solve this by using integration by parts
+
+\begin{align*}
+	\int x\sin x &= x \int \sin x\ dx - \int \int \sin x\  dx \\
+		&= -x\cos x + \sin x + C\\
+\end{align*}
+
+\begin{question}
+	Integrate
+\begin{align*}
+	e^{3x}x^2
+\end{align*}
+\end{question}
+
+Again, this may be solved by repeated applications of IBP
+
+\begin{align*}
+	\int e^{3x}x^2 &= x^2 \int e^{3x} - \int \int e^{3x} 2x \\
+		&= x^2 \frac{e^{3x}}{3} - \frac{2}{3}\int e^{3x} x \\
+		&= x^2 \frac{e^{3x}}{3} - \frac{2}{3}\left[x \int e^{3x} - \int \int e^{3x}\right] \\
+		&= x^2 \frac{e^{3x}}{3} - \frac{2}{3}\left[x \frac{e^{3x}}{3} - \frac{e^{3x}}{9}\right] \\
+		&= \frac{e^{3x}}{3}\left[x^2 - \frac{2x}{3} + \frac{2}{9}\right] + C
+\end{align*}
+
+\begin{question}
+	Integrate
+\begin{align*}
+	\frac{1}{(x-1)(x-3)(x+3)}
+\end{align*}
+\end{question}
+
+To integrate this we first resolve by partial fractions
+\begin{align*}
+	\frac{1}{(x-1)(x-3)(x+3)} &= \frac{A}{x-1} + \frac{B}{x-3} + \frac{C}{x+3} \\
+	1 &= A(x^2 - 9) +B(x^2 +2x -3) +C(x^2 -4x +3) \\
+	2C &= B \\
+	A + B + C &= 0 \\
+	A + 3C &= 0 \\
+	1 + 9A +3B - 3C &= 0 \\ 
+	1 + 9A +3C &= 0 \\
+	1 + 8A &= 0 \\
+	A &= -\frac{1}{8} \\
+	C &= \frac{1}{24} \\
+	B &= \frac{1}{12}
+\end{align*}
+
+Now we can integrate this
+
+\begin{align*}
+	\int \frac{1}{(x-1)(x-3)(x+3)} &= -\frac{1}{8}\int \frac{1}{x-1} + \frac{1}{12}\int \frac{1}{x-3} + \frac{1}{24}\int \frac{1}{x+3}  \\
+	&= -\frac{1}{8}\ln|x-1| +\frac{1}{12}\ln|x-3| + \frac{1}{24}\ln|x+3| \\
+	&= \frac{1}{24}\left[-3\ln|x-1| +2\ln|x-3| +\ln|x+3|\right] + C
+\end{align*}
+
+
+\end{document}
