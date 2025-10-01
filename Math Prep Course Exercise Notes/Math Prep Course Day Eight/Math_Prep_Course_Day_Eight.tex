@@ -1,0 +1,304 @@
+\documentclass[a4paper]{article}
+
+\usepackage{import}
+\usepackage{xcolor}
+\usepackage{textcomp,mathcomp}
+\usepackage{cancel}
+\usepackage{float}
+\usepackage{forloop}
+\usepackage{pgfplots}
+\usepackage{booktabs}
+\usepgfplotslibrary{fillbetween}
+
+
+\usepackage[version=4]{mhchem}
+\usepackage{multido}
+
+\definecolor{yorhabg}{HTML}{C8C2AA}
+\definecolor{yorhafg}{HTML}{4D493E}
+\definecolor{yorhagrid}{HTML}{B5AF9C}
+\definecolor{gruvred}{HTML}{91221D}
+
+\pagecolor{yorhabg}
+\color{yorhafg}
+
+% \import{project1 (pblock)}{preamble.sty}
+
+% Removes padding above title
+\usepackage{titling}
+\setlength{\droptitle}{-10em}
+
+% Font package
+\usepackage[T1]{fontenc}
+
+\usepackage{fouriernc}
+
+\usepackage{calc}
+
+
+\usepackage{sectsty}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[most]{tcolorbox}
+
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usetikzlibrary{calc,shadows.blur}
+
+\usepackage[backend=biber,style=ieee,citestyle=numeric-comp,sorting=none]{biblatex}
+\addbibresource{sample.bib}
+
+\AddToShipoutPictureBG{%
+	\begin{tikzpicture}[remember picture, overlay,
+		help lines/.append style={line width=0.05pt, color=yorhagrid}]
+		\draw[help lines] (current page.south west) grid[step=5pt]
+		(current page.north east);
+	\end{tikzpicture}%
+}
+
+% Margins
+\topmargin=0in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\AtBeginEnvironment{tcolorbox}{\small}
+
+\newtcolorbox[auto counter, number within=section]{question}{%
+	enhanced,
+	colback=yorhabg,
+	colframe=yorhafg,
+	coltext=yorhafg,
+	coltitle=yorhabg,
+	title={\textbf{Question~\thetcbcounter}},
+	arc=0pt,
+	outer arc=0pt,
+	drop shadow southeast,
+	sharp corners,
+}
+
+\newtcolorbox{solution}{%
+	enhanced,
+	breakable,
+	colback=yorhabg,
+	colframe=yorhafg,
+	coltext=yorhafg,
+	coltitle=yorhabg,
+	arc=0pt,
+	outer arc=0pt,
+	drop shadow southeast,
+	sharp corners,
+}
+
+\newtcolorbox{imp}{enhanced,arc=0mm,colback=yorhabg,colframe=yorhafg,leftrule=10mm,coltext=yorhafg,%
+	overlay={\node[anchor=west,outer sep=1pt] at (frame.west) {\scalebox{1}{\textcolor{yorhabg}{\textbf{Info}}}}; }}
+
+\newcommand\bb[1]{\textcolor{yorhafg}{\textbf{#1}}}
+
+\newcommand\ph{\textrm{pH}}
+\newcommand\poh{\textrm{pOH}}
+
+\newcommand\mybox[2][]{\tikz[overlay]\node[fill=yorhafg, color=yorhabg, inner sep=2pt, anchor=text, rectangle, rounded corners=1mm,#1] {#2};\phantom{#2}}
+
+
+\pgfplotsset{
+	every axis/.append style={
+		legend style={
+			fill=yorhagrid,     % dark background
+			draw=yorhafg,        % white border
+			text=yorhafg,
+			rounded corners
+		}
+	}
+}
+
+
+\title{Math Prep Course Day One}
+\author{Ashhad}
+
+\begin{document}
+
+\maketitle
+
+\section{Definite Integrals}
+
+\begin{question}
+	Find \(\int_{-3}^{3} f(x)\ dx\) Where 
+\begin{align*}
+	f(x) = 
+	\begin{cases}
+		-x & x \in [-3, -1] \\
+		1 & x \in [-1, 1] \\
+		x & x \in [1, 3] 
+	\end{cases}
+\end{align*} 
+\end{question}
+
+To evaluate this, split the integral into three parts
+\begin{align*}
+	\int_{-3}^{3} f(x)\ dx &= \int_{-3}^{-1} -x\ dx + \int_{-1}^{1} dx + \int_{1}^{3} x\ dx \\
+		&= \int_{1}^{3} x\ dx + 2 + \int_{1}^{3} x\ dx \\
+		&= 2\left[\frac{x^2}{2}\right]_{1}^{3} + 2 \\
+		&= 2\left[\frac{9}{2} - \frac{1}{2}\right] + 2 \\
+		&= 10 \\
+\end{align*}
+
+\begin{question}
+	Calculate \(\int_{0}^{2\pi} \sin^2 x\ dx\)
+\end{question}
+
+\begin{align*}
+	\int_{0}^{2\pi} \sin^2 x\ dx &= \frac{1}{2} \int_{0}^{2\pi} 1 - \cos (2x)\ dx \\
+	&= \frac{1}{2} \left[x -\sin (2x)\right]_{0}^{2\pi} \\
+	&= \frac{1}{2} [2\pi] \\
+	&= \pi
+\end{align*}
+
+\begin{question}
+	Calculate \(\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} \sin^3 x\ dx\)
+\end{question}
+
+Since we have \(\sin^3 (-x) = -\sin^3 x\), we may write
+\begin{align*}
+	\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} \sin^3 x\ dx &= \int_{-\frac{\pi}{2}}^{0} \sin^3 x\ dx + \int_{0}^{\frac{\pi}{2}} \sin^3 x\ dx \\
+	&= \int_{0}^{\frac{\pi}{2}} \sin^3 (-x)\ dx + \int_{0}^{\frac{\pi}{2}} \sin^3 x\ dx \\
+	&= \int_{0}^{\frac{\pi}{2}} \sin^3 x + \sin^3 (-x) \\
+	&= 0
+\end{align*}
+
+\begin{question}
+	Calculate \(\int_{0}^{\infty} xe^{-x}\ dx\)
+\end{question}
+
+Using Integration by parts
+\begin{align*}
+	\int_{0}^{\infty} xe^{-x}\ dx &= \left[x \int e^{-x}\ dx\right]_{0}^{\infty} - \int_{0}^{\infty} \int e^{-x}\ dx \\
+	&= \left[-xe^{-x}\right]_{0}^{\infty} + \int_{0}^{\infty} e^{-x} \\
+	&= [0 - 0] + [1 - 0] \\
+	&= 1 
+\end{align*}
+
+\begin{question}
+	If \(f(t+a) = f(t)\) then find \(\int_{0}^{na} f(t)\ dt\) where \(\int_{0}^{a} f(t)\ dt = \frac{a}{2}\)
+\end{question}
+
+For this, we split the integral into n integrals.
+
+\begin{align*}
+	\int_{0}^{na} f(t)\ dt &= \sum_{i=0}^{n-1} \int_{ia}^{(i+1)a} f(t)\ dt \\
+\end{align*}
+
+On each integral \(I_i\) in the sum, substitute in the expression \(t = t - ia\)
+
+\begin{align*}
+	\sum_{i=0}^{n-1} \int_{ia}^{(i+1)a} f(t)\ dt &= \sum_{i=0}^{n-1} \int_{0}^{a} f(t-ia)\ dt \\
+	 &= \sum_{i=0}^{n-1} \int_{0}^{a} f(t)\ dt \\
+	 &= \sum_{i=0}^{n-1} \frac{a}{2} \\
+	 &= \frac{na}{2}
+\end{align*}
+
+\begin{question}
+	Show that
+	\begin{align*}
+		\left[
+			\begin{matrix}
+				\cos\theta & \sin\theta \\
+				-\sin\theta & \cos\theta \\
+			\end{matrix}
+		\right]
+	\end{align*}
+	Is orthogonal
+\end{question}
+
+An orthogonal matrix is one whose rows/columns form an orthonormal set.
+
+Let \(e_1\) represent the first column and \(e_2\) represent the second one. To show orthogonality, it is sufficient to check that the dot product of \(e_1\) and \(e_2\) is zero.
+
+\begin{align*}
+	e_1 \cdot e_2 &= (\cos\theta - \sin\theta) \cdot (\sin\theta + \cos\theta) \\
+	&= (\cos\theta\sin\theta - \sin\theta\cos\theta) \\
+	&= 0
+\end{align*}
+
+Next we must show that they are both also unit vectors
+
+\begin{align*}
+	||e_1|| &= (\cos\theta)^2 + (-\sin\theta)^2 = 1 \\
+	||e_2|| &= (\sin\theta)^2 + (\cos\theta)^2 = 1 \\
+\end{align*}
+
+Therefore the matrix is orthogonal.
+
+\begin{question}
+	Find the inverse of 
+	\begin{align*}
+		B =
+		\left[
+		\begin{matrix}
+			-3 & 1 & 1 \\
+			2 & 3 & -1 \\
+			4 & 2 & 1 \\
+		\end{matrix}
+		\right]
+	\end{align*}
+\end{question}
+
+Row Operations:
+\begin{enumerate}
+	\item \(R_1 \leftarrow R_1/(-3)\)
+	\item \(R_2 \leftarrow R_2 - 2R_1\)
+	\item \(R_3 \leftarrow R_3 - 4R_1 \leftarrow\) Matrix 2 
+	\item \(R_2 \leftarrow R_2/(\frac{11}{3})\)
+	\item \(R_1 \leftarrow R_1 + \frac{1}{3}R_2\)
+	\item \(R_3 \leftarrow R_3 - \frac{10}{3}R_2\leftarrow\) Matrix 3 
+	\item \(R_3 \leftarrow R_3/(\frac{29}{11})\)
+	\item \(R_1 \leftarrow R_1 + \frac{4}{11}R_3\)
+	\item \(R_2 \leftarrow R_2 - \frac{1}{11}R_3\leftarrow\) Matrix 4
+\end{enumerate}
+
+\begin{align}
+	\left[	
+	\begin{array}{ccc|ccc}
+		-3 & 1 & 1 & 1 & 0 & 0 \\
+		2 & 3 & -1 & 0 & 1 & 0 \\
+		4 & 2 & 1 & 0 & 0 & 1 \\
+	\end{array}
+	\right] \\
+	\left[	
+	\begin{array}{ccc|ccc}
+		1 & -\frac{1}{3} & -\frac{1}{3} & -\frac{1}{3} & 0 & 0 \\
+		0 & \frac{11}{3} & -\frac{1}{3} & \frac{2}{3} & 1 & 0 \\
+		0 & \frac{10}{3} & \frac{7}{3} & \frac{4}{3} & 0 & 1 \\
+	\end{array}
+	\right] \\
+	\left[	
+	\begin{array}{ccc|ccc}
+		1 & 0 & -\frac{12}{33} & -\frac{9}{33} & \frac{1}{11} & 0 \\
+		0 & 1 & -\frac{1}{11} & \frac{2}{11} & \frac{3}{11} & 0 \\
+		0 & 0 & \frac{29}{11} & \frac{8}{11} & -\frac{10}{11} & 1 \\
+	\end{array}
+	\right] \\
+	\left[	
+	\begin{array}{ccc|ccc}
+		1 & 0 & 0 & -\frac{5}{29} & -\frac{1}{29} & \frac{4}{29} \\
+		0 & 1 & 0 & \frac{6}{29} & \frac{7}{29} & \frac{1}{29} \\
+		0 & 0 & 1 & \frac{8}{29} & -\frac{10}{29} & \frac{11}{29} \\
+	\end{array}
+	\right]
+\end{align}
+
+So the inverse is
+\begin{align*}
+	\frac{1}{29} \left[
+	\begin{matrix}
+		-5 & -1 & 4 \\
+		6 & 7 & 1\\
+		8 & -10 & 11\\
+	\end{matrix}
+	\right]
+\end{align*}
+
+\end{document}
